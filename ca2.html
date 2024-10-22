@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch Random Dog Image</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: lightpink;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color:chocolate;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    #dog-image {
+      max-width: 400px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CA2 Fetching Random Dog Image</h1>
+  
+
+  <div id="container">
+    <img id="dog-image" src="" alt="Random Dog" style="display:none;">
+  </div>
+  <div id="error-message" class="error"></div>
+  <button onclick="fetchDogImage()">Get New Dog</button>
+
+  <script>
+    function fetchDogImage() {
+        const imgElement = document.getElementById("dog-image");
+        const errorElement = document.getElementById("error-message");
+        
+        imgElement.style.display = 'none'; 
+        errorElement.textContent = ''; 
+
+          fetch("https://dog.ceo/api/breeds/image/random")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch dog image'); 
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                imgElement.src = data.message; 
+                imgElement.style.display = 'block'; 
+            })
+            .catch(error => {
+                errorElement.textContent = `Error: ${error.message}`;
+            });
+    }
+
+    
+    document.getElementById("fetch-button").addEventListener("click", fetchDogImage);
+</script>
+
+</body>
+</html>
